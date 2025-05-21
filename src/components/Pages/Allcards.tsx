@@ -1,15 +1,15 @@
 import { useQueries } from "@tanstack/react-query";
-import "../../App.css"; // Assuming this contains global styles if any
+import "../../App.css"; 
 
 import { motion } from "framer-motion";
-import { Card, type cardInterface } from "../ui/Card"; // Assuming Card component exists
+import { Card, type cardInterface } from "../ui/Card"; 
 import {
   cardCakefetch,
   cardGroceryFetch,
   cardmedicalFetch,
   cardrestauantFetch,
 } from "../../Services/api";
-import Serachbar from "../ui/Serachbar"; // Assuming Serachbar component exists
+import Serachbar from "../ui/Serachbar"; 
 
 function Allcards() {
   const data = useQueries({
@@ -91,12 +91,12 @@ function Allcards() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-
+//@ts-ignore
       <Serachbar data={data} />
 
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 py-8 overflow-x-hidden">
         <motion.h1
-          initial={{ opacity: 0, y: -20 }} // Added y-axis animation
+          initial={{ opacity: 0, y: -20 }} 
           animate={{ opacity: 1, y: 0 }}
           transition={{ ease: "easeInOut", delay: 0.5, duration: 0.8 }}
           className="text-center text-4xl sm:text-5xl font-extrabold p-4 mb-8 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600" // Modern gradient and font
@@ -113,8 +113,8 @@ function Allcards() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                whileHover={{ scale: 1.03 }} // Subtle hover effect
-                whileTap={{ scale: 0.98 }} // Subtle tap effect
+                whileHover={{ scale: 1.03 }} 
+                whileTap={{ scale: 0.98 }}
               >
                 <Card
                   _id={s._id}

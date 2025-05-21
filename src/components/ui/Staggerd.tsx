@@ -5,6 +5,8 @@ import {  motion } from "framer-motion";
 interface straggerdinterface {
     name : string
     straggerdtime : number
+    color : string
+    stringsize : string
 }
 
 
@@ -37,7 +39,7 @@ const Staggerd = (props :straggerdinterface) => {
     }}
     
     
-    className="font-Brand text-9xl text-white">
+    className={`font-Brand text-${props.stringsize} text-${props.color}`}>
         {name.split("").map((char , index ) => (
             <motion.span key={index} variants={straggerdvariants}>
                 {char}

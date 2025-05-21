@@ -1,25 +1,13 @@
 import { useRef } from "react";
-
 import { motion } from "framer-motion";
-
 import axios, { AxiosError } from "axios";
-
-
-
-
-
-
-
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../ui/Toast";
 import { signinSchema } from "../../../types";
 import { API_URL } from "../../../Services/api";
 
-
-
 export const Signin = () => {
-
-  const toast = useToast()
+  const toast = useToast();
   const emailref = useRef<HTMLInputElement>(null);
   const passwordref = useRef<HTMLInputElement>(null);
   const Navigate1 = useNavigate();
@@ -37,89 +25,85 @@ export const Signin = () => {
       return;
     }
 
+    try {
+      const response = await axios({
+        method: "post",
+        url: API_URL + "/admin/login",
+        data: {
+          email: email,
+          password: password,
+        },
+      });
 
-try {
-  const response = await axios({
-    method: "post",
-    url: API_URL + "/admin/login",
-    data: {
-      email: email,
-      password: password,
-    },
-  });
-
-  if(response.data){
-
-  localStorage.setItem("token" , response.data.token)
-
-    Navigate1("/admin" );
-    toast("Welcome Admin"  );
+      if (response.data) {
+        localStorage.setItem("token", response.data.token);
+        Navigate1("/admin");
+        toast("Welcome Admin");
+      }
+    } catch (e) {
+      if ((e as AxiosError).response) {
+        // @ts-expect-error(this error because msg is my backend variable)
+        toast((e as AxiosError).response?.data?.message);
+      } else if ((e as AxiosError).request) {
+        console.log((e as AxiosError).request);
+      } else {
+        console.log("Internal server failed");
+      }
+    }
   }
-}catch (e) {
-  if ((e as AxiosError).response) {
-    //@ts-expect-error(this error beacuse msg is my backend variable)
-         toast((e as AxiosError).response?.data?.message)
-  } else if ((e as AxiosError).request) {
-        console.log((e as AxiosError).request)
-  } else {
-    console.log("Internal server failed")
-  }
-}
-    
-    
-  }
-
-
-
-
 
   return (
-    <div className="min-h-screen w-screen relative overflow-hidden">
+    <div className="min-h-screen w-screen relative overflow-hidden font-sans bg-gradient-to-br from-indigo-50 to-purple-100 flex items-center justify-center">
+      {/* Subtle background animation */}
       <motion.div
-      animate={{
-        scale : [5 , 10 , 15 , 10 , 5],
-        rotate : [0 , 90 , 180 , 270 , 360]
-      }}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, rotate: 360 }}
+        transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+        className="absolute inset-0 bg-gradient-to-br from-purple-200 via-indigo-200 to-blue-200 opacity-30 rounded-full"
+        style={{ width: '150%', height: '150%', top: '-25%', left: '-25%' }}
+      />
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, rotate: -360 }}
+        transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+        className="absolute inset-0 bg-gradient-to-tl from-pink-200 via-red-200 to-orange-200 opacity-20 rounded-full"
+        style={{ width: '120%', height: '120%', top: '-10%', left: '-10%' }}
+      />
 
-      transition={{
-        duration : 7,
-        ease : "easeInOut",
-        repeat : Infinity
-      }}
-      className="absolute inset-0 bg-gray-200 bg-[url('https://images.unsplash.com/photo-1534156039819-c89418369a4f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center z-0" />
-      <div className="relative z-10 flex flex-col justify-center items-center gap-6 px-4 min-h-screen">
-        <h1 className="text-3xl sm:text-4xl font-SemiBrand md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent text-center">
+      <div className="relative z-10 flex flex-col justify-center items-center gap-8 px-4 py-12 w-full max-w-md mx-auto">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-center drop-shadow-md">
           Admin Login
         </h1>
 
-        <div className="w-[90%] max-w-md bg-white flex flex-col items-center justify-center gap-4 p-6 rounded-xl border border-blue-200 shadow-xl backdrop-blur-sm mx-auto">
-            <h1 className="font-Palanquin text-3xl pb-10 font-extrabold">
-              Sign <span className=" bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">In</span>
-          </h1>
-          <div className="w-full px-6">
+        <div className="w-full bg-white p-8 rounded-2xl border border-gray-200 shadow-xl flex flex-col items-center gap-6">
+          <h2 className="font-semibold text-3xl text-gray-800 mb-4">
+            Sign{" "}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-500">
+              In
+            </span>
+          </h2>
+          <div className="w-full">
             <input
-              type="text"
+              type="email" // Changed type to email for better semantics
               placeholder="Enter your email"
               ref={emailref}
-              className="w-full p-3 rounded border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+              className="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-200 text-gray-800 placeholder-gray-400"
             />
           </div>
-          <div className="w-full px-6">
+          <div className="w-full">
             <input
               type="password"
               placeholder="Password"
               ref={passwordref}
-              className="w-full p-3 rounded border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+              className="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-200 text-gray-800 placeholder-gray-400"
             />
           </div>
           <button
             onClick={signin}
-            className=" active:scale-90 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-6 py-2 mt-4 rounded-lg shadow-md hover:shadow-lg transition duration-300"
+            className="w-full py-3 mt-4 rounded-lg shadow-lg bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold text-lg hover:from-purple-700 hover:to-indigo-700 active:scale-95 transition duration-200 ease-in-out transform hover:-translate-y-0.5"
           >
             Sign In
           </button>
-
-          
         </div>
       </div>
     </div>

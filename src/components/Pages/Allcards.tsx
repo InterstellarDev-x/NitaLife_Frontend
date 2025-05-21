@@ -1,30 +1,18 @@
-import { useQueries  } from "@tanstack/react-query";
-import "../../App.css";
-
-
+import { useQueries } from "@tanstack/react-query";
+import "../../App.css"; // Assuming this contains global styles if any
 
 import { motion } from "framer-motion";
-import { Card, type cardInterface } from "../ui/Card";
-import { cardCakefetch, cardGroceryFetch, cardmedicalFetch, cardrestauantFetch } from "../../Services/api";
-import Serachbar from "../ui/Serachbar";
-
-
-
-
-
-
-
-
-
+import { Card, type cardInterface } from "../ui/Card"; // Assuming Card component exists
+import {
+  cardCakefetch,
+  cardGroceryFetch,
+  cardmedicalFetch,
+  cardrestauantFetch,
+} from "../../Services/api";
+import Serachbar from "../ui/Serachbar"; // Assuming Serachbar component exists
 
 function Allcards() {
-
- 
-
-   
-
-
-   const data = useQueries({
+  const data = useQueries({
     queries: [
       {
         queryKey: ["cake"],
@@ -45,96 +33,106 @@ function Allcards() {
     ],
   });
 
-  
+  const [cake, medical, grocery, restaurant] = data;
 
-   const [cake, medical, grocery, restaurant] = data;
-
-
-
-   
-
+  // Loading state
   if (
     cake.isLoading ||
     medical.isLoading ||
     grocery.isLoading ||
     restaurant.isLoading
   ) {
-     return (
-     <div className="flex justify-center items-center space-x-2 h-screen w-screen">
-    {[...Array(3)].map((_ , index)=>(
-        <motion.div  
-        key={index}
-        className="w-10 h-10 bg-teal-500 rounded-full"
-        animate={{
-            y: [0 , -15 , 0]
-        }}
-        transition={{
-            duration :  .6,
-            ease : 'easeInOut',
-            repeat : Infinity,
-            repeatDelay: index*0.2
-
-        }}/>
-    ))}
-    </div>
-  )
-  }
-
-  if (cake.isError || medical.isError || grocery.isError || restaurant.isError) {
-    return <div className="bg-black h-screen w-screen fixed top-0 left-0 flex flex-col justify-center items-center text-red-500 text-2xl px-4 text-center space-y-6">Error Happend in network 
-  <hr />
-    <button className="px-4 py-2 rounded-xl active:scale-90 bg-white text-black text-lg">Go back to home </button> </div>;
-  }
-
-
- 
-
-
-  const allStores = [...cake.data.allCakesStore , ...medical.data.allMedicalStore , ...grocery.data.allgroceryStore , ...restaurant.data.allrestaurantStore ]
-
-
-
-    
-
-
-  return (
-    <div className="px-4 sm:px-6 md:px-10 lg:px-20 overflow-x-hidden">
-    <Serachbar data={data}/>
-
-    
-
-
-      <div className="text-white border-white  rounded-lg mb-4 ">
-      <motion.h1   
-      initial={{
-        opacity : 0
-      }} 
-      animate ={{
-        opacity: 1
-      }}
-
-      transition={{
-        ease : 'easeInOut',
-      delay: .5      }}
-      
-      className="border-white text-center text-3xl sm:text-4xl font-semibold p-4 text-[#f3a900]"> Campus Stores </motion.h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
-        {allStores.map((s: cardInterface) => (
-          <div id={s._id} key={s._id} className="w-full max-w-sm">
-            <Card
-              _id={s._id}
-              Descrption={s.Descrption}
-              address={s.address}
-              name={s.name}
-              phoneno={s.phoneno}
-              imageUrl={s.imageUrl}
-            />
-          </div>
+    return (
+      <div className="flex justify-center items-center space-x-2 h-screen w-screen bg-gray-900">
+        {[...Array(3)].map((_, index) => (
+          <motion.div
+            key={index}
+            className="w-10 h-10 bg-indigo-500 rounded-full" // Consistent color with other modern UIs
+            animate={{
+              y: [0, -15, 0],
+            }}
+            transition={{
+              duration: 0.6,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatDelay: index * 0.2,
+            }}
+          />
         ))}
       </div>
+    );
+  }
+
+  // Error state
+  if (cake.isError || medical.isError || grocery.isError || restaurant.isError) {
+    return (
+      <div className="bg-gray-900 h-screen w-screen fixed top-0 left-0 flex flex-col justify-center items-center text-red-400 text-xl md:text-2xl px-4 text-center space-y-6 font-sans">
+        <p className="text-3xl font-bold mb-4">Oops! Something went wrong.</p>
+        <p className="text-lg">
+          It seems there was an error fetching data. Please check your network
+          connection or try again later.
+        </p>
+        <button
+          onClick={() => window.location.reload()} // Reload to try again
+          className="px-6 py-3 rounded-xl active:scale-95 bg-indigo-600 text-white text-lg font-medium shadow-lg hover:bg-indigo-700 transition duration-200"
+        >
+          Reload Page
+        </button>
       </div>
+    );
+  }
 
+  const allStores = [
+    ...cake.data.allCakesStore,
+    ...medical.data.allMedicalStore,
+    ...grocery.data.allgroceryStore,
+    ...restaurant.data.allrestaurantStore,
+  ];
 
+  return (
+    <div className="min-h-screen bg-gray-100 font-sans">
+
+      <Serachbar data={data} />
+
+      <div className="px-4 sm:px-6 md:px-10 lg:px-20 py-8 overflow-x-hidden">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }} // Added y-axis animation
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ease: "easeInOut", delay: 0.5, duration: 0.8 }}
+          className="text-center text-4xl sm:text-5xl font-extrabold p-4 mb-8 text-gray-800 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600" // Modern gradient and font
+        >
+          Campus Stores
+        </motion.h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
+          {allStores.length > 0 ? (
+            allStores.map((s: cardInterface) => (
+              <motion.div
+                key={s._id}
+                className="w-full max-w-sm"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                whileHover={{ scale: 1.03 }} // Subtle hover effect
+                whileTap={{ scale: 0.98 }} // Subtle tap effect
+              >
+                <Card
+                  _id={s._id}
+                  Descrption={s.Descrption}
+                  address={s.address}
+                  name={s.name}
+                  phoneno={s.phoneno}
+                  imageUrl={s.imageUrl}
+                />
+              </motion.div>
+            ))
+          ) : (
+            <div className="lg:col-span-4 text-center text-gray-600 text-xl py-10">
+              No stores available.
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

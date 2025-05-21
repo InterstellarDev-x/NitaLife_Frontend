@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, type cardInterface } from "./Card";
 
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ArrowLeftSquare } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 type data = {
   data: {

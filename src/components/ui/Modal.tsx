@@ -1,26 +1,48 @@
-import { useRef } from "react";
-
-import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_URL, PostStore } from "../../Services/api";
-import { motion } from "framer-motion"; 
-import type { poststore } from "../../types";
-
+import {  useMutation, useQueryClient } from "@tanstack/react-query"
+import { motion } from "framer-motion"
+import { useEffect, useRef  } from "react"
+import type { poststore } from "../../types"
+import {  UpdateStore } from "../../Services/api"
+import type { cardInterface } from "./Card"
 
 
+interface ModalInterface {
+  isOpen: boolean;
+  setIsOpen: (value: boolean) => void;
+  store : cardInterface| null
+}
 
 
-const Form = () => {
-  const queryclient = useQueryClient();
+
+
+
+
+
+const Modal = (props : ModalInterface) => {
+
+
+    useEffect(() => {
+  if (props.store) {
+    if (nameRef.current) nameRef.current.value = props.store.name || "";
+    if (addressRef.current) addressRef.current.value = props.store.address || "";
+    if (urlRef.current) urlRef.current.value = props.store.imageUrl || "";
+    if (phoneRef.current) phoneRef.current.value = props.store.phoneno?.toString() || "";
+    if (descriptionRef.current) descriptionRef.current.value = props.store.Descrption || "medical";
+  }
+}, [props.store]);
+
+
+  const queryclient = useQueryClient()
 
   const nameRef = useRef<HTMLInputElement>(null);
-  const addressRef = useRef<HTMLInputElement>(null);
-  const urlRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLSelectElement>(null); // Renamed to categoryRef for clarity if 'Descrption' is category
+    const addressRef = useRef<HTMLInputElement>(null);
+    const urlRef = useRef<HTMLInputElement>(null);
+    const phoneRef = useRef<HTMLInputElement>(null);
+    const descriptionRef = useRef<HTMLSelectElement>(null);
+    
 
-  const { error, mutate, status } = useMutation<poststore, Error, poststore>({
-    mutationFn: PostStore,
+const { error, mutate, status } = useMutation<poststore, Error, poststore>({
+    mutationFn: UpdateStore,
     onSuccess: () => {
 
       queryclient.invalidateQueries({ queryKey: ["cake"] })
@@ -29,11 +51,7 @@ const Form = () => {
       queryclient.invalidateQueries({ queryKey: ["restaurant"] });
 
 
-      if (nameRef.current) nameRef.current.value = "";
-      if (addressRef.current) addressRef.current.value = "";
-      if (urlRef.current) urlRef.current.value = "";
-      if (phoneRef.current) phoneRef.current.value = "";
-      if (descriptionRef.current) descriptionRef.current.value = "medical"; // Reset to default
+      props.setIsOpen(false )
     },
     onError: (err) => {
       console.error("Error posting store:", err);
@@ -44,6 +62,7 @@ const Form = () => {
 
   const PostStoreFunction = () => {
     const postdata: poststore = {
+      id : props.store?._id,
       name: nameRef.current?.value || "",
       address: addressRef.current?.value || "",
       imageUrl: urlRef.current?.value || "",
@@ -54,16 +73,33 @@ const Form = () => {
     mutate(postdata);
   };
 
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-xl mx-auto p-8 bg-white shadow-lg rounded-xl space-y-6 text-gray-800 font-sans"
-    >
-      
 
-      {/* Input for Store Name */}
+
+
+
+
+  return (
+    <div className="h-screen w-screen flex justify-center items-center">
+      <button onClick={() => props.setIsOpen(true)} className="bg-teal-400 text-black rounded-lg px-4 py-3">
+        Open
+      </button>
+
+      {props.isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 flex justify-center items-center"
+          onClick={() => props.setIsOpen(false)}
+        >
+          <motion.div
+            onClick={(e) => e.stopPropagation()}
+           
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="max-w-lg w-full mx-4 border-2 rounded-lg border-white p-6 bg-white text-black shadow-xl"
+          >
+            
+
+            {/* Input for Store Name */}
       <div className="relative">
         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
           Store Name
@@ -127,8 +163,8 @@ const Form = () => {
         <select
           name="category"
           id="category"
-          ref={descriptionRef} // Still using descriptionRef as per original code
-          defaultValue="medical" // Set a default selected value
+          ref={descriptionRef} 
+          defaultValue="medical" 
           className="w-full p-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition duration-200 text-gray-800 bg-white appearance-none pr-8" // Added appearance-none and pr-8 for custom arrow
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.5em 1.5em' }}
         >
@@ -141,9 +177,9 @@ const Form = () => {
 
       {/* Submit Button */}
       <button
-        onClick={PostStoreFunction}
+       onClick={PostStoreFunction}
         className="w-full py-3 mt-6 rounded-lg shadow-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold text-lg hover:from-indigo-700 hover:to-purple-700 active:scale-95 transition duration-200 ease-in-out transform hover:-translate-y-0.5 flex items-center justify-center"
-        disabled={status === 'pending'} // Disable button when pending
+        disabled={status === 'pending'} 
       >
         {status === 'pending' ? (
           <svg className="animate-spin h-5 w-5 text-white mr-3" viewBox="0 0 24 24">
@@ -151,23 +187,22 @@ const Form = () => {
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
         ) : (
-          'Add Store'
+          'Update Store'
         )}
       </button>
 
-      {/* Error Message */}
-      {error && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="text-red-600 bg-red-100 p-3 rounded-lg text-center font-medium border border-red-200"
-        >
-          Failed to add store: {error.message || "An unknown error occurred."}
-        </motion.div>
-      )}
-    </motion.div>
-  );
-};
 
-export default Form;
+
+
+
+            <button onClick={() => props.setIsOpen(false)} className="bg-red-500 text-white px-3 py-1 rounded">
+              Close
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default Modal

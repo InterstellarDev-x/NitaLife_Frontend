@@ -6,7 +6,7 @@ interface straggerdinterface {
     name : string
     straggerdtime : number
     color : string
-    stringsize : string
+    stringsize? : string
 }
 
 

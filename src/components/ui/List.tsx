@@ -1,22 +1,28 @@
 import { motion } from 'framer-motion'
 import type { cardInterface } from './Card';
+import Modal from './Modal';
+import { useState } from 'react';
 
 interface  ListProps  {
   Stores : cardInterface[]
 }
 
 const List = (props : ListProps) => {
+
+  const [isOpen , setisOpen ] = useState<boolean>(false)
+  const [selectedStore, setSelectedStore] = useState<cardInterface | null>(null);
   
 
-  const handleUpdate = (id: string) => {
-    console.log("Update:", id);
+  const handleUpdate = (store : cardInterface) => {
+         setSelectedStore(store)
+      setisOpen(true);
   };
 
   const handleDelete = (id: string) => {
     console.log("Delete:", id);
   };
 
-  return (
+  return (<>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
       {props.Stores.map((store) => (
         <motion.div
@@ -37,7 +43,10 @@ const List = (props : ListProps) => {
           </div>
           <div className="flex gap-2 mt-4">
             <button
-              onClick={() => handleUpdate(store._id)}
+              onClick={() =>  ( 
+
+                handleUpdate(store) )}
+
               className="bg-blue-500 text-white text-sm px-3 py-1 rounded-md hover:bg-blue-600 transition"
             >
               Update
@@ -48,11 +57,16 @@ const List = (props : ListProps) => {
             >
               Delete
             </button>
+           
           </div>
+         
         </motion.div>
+
       ))}
-    </div>
+    </div> {isOpen && <Modal isOpen={isOpen} setIsOpen={setisOpen} store={selectedStore} />}
+     </>
   );
+  
 };
 
 export default List;

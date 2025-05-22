@@ -29,7 +29,8 @@ const Gallery = () => {
       />
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div className="flex gap-4 " style={{x}}>
-           <Staggerd name="Explore " straggerdtime={.2} color="red-500" stringsize="9xl"/>
+          <div className="text-9xl">
+           <Staggerd name="Explore " straggerdtime={.2} color="red-500" /></div>
 
             <div className="group relative w-[30rem] h-[30rem] overflow-hidden bg-neutral-200">
               <div style={{

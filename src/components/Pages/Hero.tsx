@@ -1,10 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const scrollToBottom = () => {
-  // Consider making this scroll to a specific section ID for more robustness
-  // e.g., document.getElementById('explore-section')?.scrollIntoView({ behavior: 'smooth' });
+  
+  
   window.scrollTo({
-    top: 2300, // This value might need to be dynamic or linked to a component's ref
+    top: 2300, 
     behavior: 'smooth',
   });
 };
@@ -12,7 +12,7 @@ const scrollToBottom = () => {
 const Hero = () => {
   const { scrollY } = useScroll();
 
-  // Adjusted scroll range for a potentially more subtle effect initially
+  
   const scale = useTransform(scrollY, [0, 800], [1, 1.8]); // Reduced max scale for less aggressive zoom
   const opacity = useTransform(scrollY, [0, 600], [1, 0]); // Fade out a bit sooner
 

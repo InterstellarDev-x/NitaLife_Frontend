@@ -9,6 +9,7 @@ import { Signin } from "./components/Pages/Admin/Signin"
 
 
 
+
 const App = ()=>{
   return (
 
@@ -18,6 +19,7 @@ const App = ()=>{
     <Route path="stores" element={<Allcards/>}/>
     <Route path="admin" element={<Dashboard/>}/>
     <Route path="signin" element={<Signin/>}/>
+
 
 
    </Routes>

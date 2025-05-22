@@ -5,6 +5,8 @@ import { Card, type cardInterface } from "./Card";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
+
+
 type data = {
   data: {
     allCakesStore: cardInterface[];
@@ -19,9 +21,9 @@ interface searchbar {
 }
 
 const Serachbar = (props: searchbar) => {
-  const cake = props.data[0].data.allCakesStore;
-  const medical = props.data[1].data.allMedicalStore;
-  const grocery = props.data[2].data.allgroceryStore;
+  const cake = props.data[0]?.data.allCakesStore;
+  const medical = props.data[1]?.data.allMedicalStore;
+  const grocery = props.data[2]?.data.allgroceryStore;
   const restaurant = props.data[3].data.allrestaurantStore;
   const Navigate = useNavigate();
 

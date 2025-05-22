@@ -47,7 +47,7 @@ function Allcards() {
         {[...Array(3)].map((_, index) => (
           <motion.div
             key={index}
-            className="w-10 h-10 bg-indigo-500 rounded-full" // Consistent color with other modern UIs
+            className="w-10 h-10 bg-indigo-500 rounded-full" 
             animate={{
               y: [0, -15, 0],
             }}
@@ -73,7 +73,7 @@ function Allcards() {
           connection or try again later.
         </p>
         <button
-          onClick={() => window.location.reload()} // Reload to try again
+          onClick={() => window.location.reload()} 
           className="px-6 py-3 rounded-xl active:scale-95 bg-indigo-600 text-white text-lg font-medium shadow-lg hover:bg-indigo-700 transition duration-200"
         >
           Reload Page

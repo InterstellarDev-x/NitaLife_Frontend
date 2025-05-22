@@ -73,4 +73,19 @@ export const UpdateStore = async(props : poststore)=>{
 
   return response.data
 }
+
+
+export const DeleteStore = async(id : string)=>{
+//  const token = localStorage.getItem("token");
+  const response = await axios({
+    url: API_URL + "/admin/store/" + id,
+    method: "delete",
+
+    headers: {
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjNjODEyMDRhODI5ZjNjZGNkMjExYSIsImlhdCI6MTc0NzE3NTQ2MH0.6Bj5bezhJ-3tqqrpkV0Vu5g7Gt7GUOcK8mxusv0tBgU"
+    },
+  });
+
+  return response.data
+}
  

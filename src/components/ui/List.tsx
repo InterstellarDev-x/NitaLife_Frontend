@@ -2,6 +2,10 @@ import { motion } from 'framer-motion'
 import type { cardInterface } from './Card';
 import Modal from './Modal';
 import { useState } from 'react';
+import { useMutation,  useQueryClient } from '@tanstack/react-query';
+import  { DeleteStore } from '../../Services/api';
+import type { poststore } from '../../types';
+import { useToast } from './Toast';
 
 interface  ListProps  {
   Stores : cardInterface[]
@@ -9,8 +13,31 @@ interface  ListProps  {
 
 const List = (props : ListProps) => {
 
+  
+  const queryclient = useQueryClient()
   const [isOpen , setisOpen ] = useState<boolean>(false)
   const [selectedStore, setSelectedStore] = useState<cardInterface | null>(null);
+
+
+  const { mutate , isError , isPending } =  useMutation<string , Error , string>({
+    mutationKey :  ['Delete'],
+    mutationFn : DeleteStore,
+     onSuccess: () => {
+
+      queryclient.invalidateQueries({ queryKey: ["cake"] })
+      queryclient.invalidateQueries({ queryKey: ["medical"] })
+      queryclient.invalidateQueries({ queryKey: ["grocery"] });
+      queryclient.invalidateQueries({ queryKey: ["restaurant"] });
+
+
+
+    },
+    onError: (err) => {
+      console.error("Error posting store:", err);
+      // You might want to use a toast notification here as well for errors
+      // For example: toast(`Failed to add store: ${err.message}`);
+    },
+   })
   
 
   const handleUpdate = (store : cardInterface) => {
@@ -18,8 +45,8 @@ const List = (props : ListProps) => {
       setisOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    console.log("Delete:", id);
+  const handleDelete = (store : string) => {
+    mutate(store)
   };
 
   return (<>

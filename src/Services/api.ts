@@ -52,7 +52,7 @@ export const PostStore = async (props: poststore) => {
     method: "post",
     data: props,
     headers: {
-      token: token
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjNjODEyMDRhODI5ZjNjZGNkMjExYSIsImlhdCI6MTc0NzE3NTQ2MH0.6Bj5bezhJ-3tqqrpkV0Vu5g7Gt7GUOcK8mxusv0tBgU"
     },
   });
 

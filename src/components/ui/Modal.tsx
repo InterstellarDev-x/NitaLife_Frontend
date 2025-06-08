@@ -9,7 +9,7 @@ import type { cardInterface } from "./Card"
 interface ModalInterface {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  store : cardInterface| null
+  store : cardInterface | null
 }
 
 
@@ -41,7 +41,7 @@ const Modal = (props : ModalInterface) => {
     const descriptionRef = useRef<HTMLSelectElement>(null);
     
 
-const { error, mutate, status } = useMutation<poststore, Error, poststore>({
+const {  mutate, status } = useMutation<poststore, Error, poststore>({
     mutationFn: UpdateStore,
     onSuccess: () => {
 
@@ -50,13 +50,10 @@ const { error, mutate, status } = useMutation<poststore, Error, poststore>({
       queryclient.invalidateQueries({ queryKey: ["grocery"] });
       queryclient.invalidateQueries({ queryKey: ["restaurant"] });
 
-
-      props.setIsOpen(false )
+      props.setIsOpen(false)
     },
     onError: (err) => {
       console.error("Error posting store:", err);
-      // You might want to use a toast notification here as well for errors
-      // For example: toast(`Failed to add store: ${err.message}`);
     },
   });
 

@@ -1,5 +1,5 @@
 
-import {  Footer } from "../ui/feature1"
+import {  Footer } from "../ui/Footer"
 import Gallery from "./Gallery"
 
 import ExploreSection from "./Explore"

@@ -1,8 +1,8 @@
 import { useRef } from "react";
 
-import axios from "axios";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { API_URL, PostStore } from "../../Services/api";
+import {  PostStore } from "../../Services/api";
 import { motion } from "framer-motion"; 
 import type { poststore } from "../../types";
 

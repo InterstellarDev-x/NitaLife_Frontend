@@ -15,7 +15,16 @@ import { useQueries } from "@tanstack/react-query";
 import type { cardInterface } from "../../ui/Card";
 
 const Dashboard = () => {
+
+
+  
+
+
+
   const Navigate = useNavigate();
+  if(!localStorage.getItem("token")){
+    Navigate("/")
+  }
   const [showbutton, setshowbutton] = useState<number>(1);
 
   const data = useQueries({

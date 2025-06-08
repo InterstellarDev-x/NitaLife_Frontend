@@ -4,8 +4,8 @@ import Modal from './Modal';
 import { useState } from 'react';
 import { useMutation,  useQueryClient } from '@tanstack/react-query';
 import  { DeleteStore } from '../../Services/api';
-import type { poststore } from '../../types';
-import { useToast } from './Toast';
+
+
 
 interface  ListProps  {
   Stores : cardInterface[]
@@ -19,7 +19,7 @@ const List = (props : ListProps) => {
   const [selectedStore, setSelectedStore] = useState<cardInterface | null>(null);
 
 
-  const { mutate , isError , isPending } =  useMutation<string , Error , string>({
+  const { mutate } =  useMutation<string , Error , string>({
     mutationKey :  ['Delete'],
     mutationFn : DeleteStore,
      onSuccess: () => {
@@ -79,6 +79,10 @@ const List = (props : ListProps) => {
               Update
             </button>
             <button
+
+
+
+
               onClick={() => handleDelete(store._id)}
               className="bg-red-500 text-white text-sm px-3 py-1 rounded-md hover:bg-red-600 transition"
             >

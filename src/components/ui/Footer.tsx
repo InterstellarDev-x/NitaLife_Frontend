@@ -1,6 +1,8 @@
 import { InstagramIcon, Linkedin, TwitterIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
+import {motion} from "framer-motion"
 interface Icon {
   icon: React.ReactNode;
   url: string;
@@ -21,11 +23,15 @@ const links: Link[] = [
   { text: "About", url: "#" },
   { text: "Services", url: "#" },
   { text: "Contact", url: "#" },
-  {text: "SignIn"
+  {text: "SignIn"  , url : "/signin"
   }
 ];
 
 export function Footer() {
+ 
+  const Navigate = useNavigate()
+
+
   return (
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 md:px-10">
       <div className="flex items-center justify-between">
@@ -53,9 +59,11 @@ export function Footer() {
           {links.map((link, index) => (
             <li
               key={index}
-              className="text-[15px]/normal font-medium text-neutral-400 transition-all duration-100 ease-linear hover:text-neutral-900 hover:underline hover:underline-offset-4 dark:font-medium dark:text-neutral-400 hover:dark:text-neutral-100"
+              className="cursor-pointer text-[15px]/normal font-medium text-neutral-400 transition-all duration-100 ease-linear hover:text-neutral-900 hover:underline hover:underline-offset-4 dark:font-medium dark:text-neutral-400 hover:dark:text-neutral-100"
+               
+              onClick={()=> Navigate(link.url as string)}
             >
-              <a href={link.url}>{link.text}</a>
+              {link.text}
             </li>
           ))}
         </ul>

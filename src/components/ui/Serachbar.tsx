@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 
 
 
+
 type data = {
   data: {
     allCakesStore: cardInterface[];
@@ -17,7 +18,7 @@ type data = {
 };
 
 interface searchbar {
-  data: data[];
+  data: data[] ;
 }
 
 const Serachbar = (props: searchbar) => {

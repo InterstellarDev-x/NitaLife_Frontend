@@ -2,7 +2,7 @@ import { InstagramIcon, Linkedin, TwitterIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
-import {motion} from "framer-motion"
+
 interface Icon {
   icon: React.ReactNode;
   url: string;

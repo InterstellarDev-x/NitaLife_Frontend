@@ -91,7 +91,7 @@ function Allcards() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-//@ts-ignore
+
       <Serachbar data={data} />
 
       <div className="px-4 sm:px-6 md:px-10 lg:px-20 py-8 overflow-x-hidden">

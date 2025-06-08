@@ -118,8 +118,7 @@ const Dashboard = () => {
       <div className="bg-gray-900 h-screen w-screen fixed top-0 left-0 flex flex-col justify-center items-center text-red-400 text-xl md:text-2xl px-4 text-center space-y-6">
         <p className="text-3xl font-bold mb-4">Oops! Something went wrong.</p>
         <p className="text-lg">
-          It seems there was an error fetching data. Please check your network
-          connection or try again later.
+          Please check your network connection or try again later.
         </p>
         <button
           onClick={() => Navigate("/")}

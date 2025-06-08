@@ -4,7 +4,7 @@ const scrollToBottom = () => {
   
   
   window.scrollTo({
-    top: 2300, 
+    top: 1215, 
     behavior: 'smooth',
   });
 };

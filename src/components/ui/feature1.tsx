@@ -13,14 +13,16 @@ const icons: Icon[] = [
 ];
 
 type Link = {
-  text: string;
-  url: string;
+  text?: string;
+  url?: string;
 };
 
 const links: Link[] = [
   { text: "About", url: "#" },
   { text: "Services", url: "#" },
   { text: "Contact", url: "#" },
+  {text: "SignIn"
+  }
 ];
 
 export function Footer() {
@@ -28,11 +30,7 @@ export function Footer() {
     <footer className="flex flex-col gap-y-5 rounded-lg px-7 py-5 md:px-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
-          <img
-            className="h-5 w-5"
-            src="https://magicui.design/icon.png"
-            alt="MagicUI Logo"
-          />
+          
           <h2 className="text-lg font-bold text-neutral-900 dark:text-white">
             NITA Life
           </h2>
